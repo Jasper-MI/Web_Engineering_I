@@ -11,9 +11,10 @@
 <body id="StartPage">
 
   <!-- Navigation Bar -->
+  <!-- Quelle: https://getbootstrap.com/docs/5.3/components/navbar/ -->
   <nav id="TopMenu" class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a id="LinkRoot" class="navbar-brand" href="../index.html">WE-1 SPA</a>
+      <a id="LinkRoot" class="navbar-brand" href="./startingPage.html">WE-1 SPA</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -25,26 +26,24 @@
           <li class="nav-item">
             <a id="LinkUserManagement" class="nav-link active" aria-current="page" href="./userManagement.html">User-Management</a>
           </li>
-          <li class="nav-item">
-            <a id="LinkLogout" class="nav-link active" aria-current="page" href="../index.html">Logout</a>
-          </li>
         </ul>
+        <a id="LinkLogout" class="nav-link active" aria-current="page" href="../index.html">Logout</a>
       </div>
     </div>
   </nav>
 
   <!-- Starting Page Content -->
   <div class="container mt-5">
-    <h1>Welcome to the Starting Page</h1>
-    <p>This is a simple starting page with a navigation bar.</p>
-    <p>You can add more content here as needed.</p>
-    <a id="StartPageLinkUserManagement" href="./userManagement.html">Edit User Data</a>
-    <p id="StartPageWelcomeText"
-    style="background-color: lightgreen;
-    padding: 5px;
-    border-radius: 3px;
-    border: 1px solid green
-    ">Hello Admin. We currently have <script id="UserCount"></script> user.</p>
+    <h1>StartPage</h1>
+    <p id="StartPageWelcomeText" >
+      This is the start Page. If the application could be loaded correctly, you should see more than 0 users. <br>
+      Do you want to edet the user data?
+      <a id="StartPageLinkUserManagement" href="./userManagement.html">Edit User Data</a>
+    </p>
+    <!--  Quelle: https://getbootstrap.com/docs/5.0/components/alerts/ -->
+    <div class="alert alert-success" role="alert">
+      Hello Admin. We currently have <span id="UserCount">1</span> user.
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>

@@ -21,6 +21,7 @@
   "homepage": "https://github.com/Jasper-MI/Web_Engineering_I#readme",
   "description": "",
   "dependencies": {
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "typescript": "^5.8.3"
   }
 }
