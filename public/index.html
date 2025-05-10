@@ -30,9 +30,11 @@
   </nav>
   
 
-  <!-- Login Form -->
-  <!-- Quelle: https://getbootstrap.com/docs/4.3/components/forms/ -->
-  <form id="FormLogin" style="padding: 2%;
+  <div id="appContent">
+
+    <!-- Login Form -->
+    <!-- Quelle: https://getbootstrap.com/docs/4.3/components/forms/ -->
+    <form id="FormLogin" style="padding: 2%;
       margin: 0 auto;
       margin-top: 5%;
       padding: 20px 15px 10px 15px;
@@ -41,24 +43,57 @@
       max-width: 300px;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;">
     <h2 class="loginFormGroup">Login</h1>
-    <div class="form-group loginFormGroup">
-      <label for="exampleInputEmail1">User Name</label>
-      <input id="FormLoginUsername" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-        placeholder="Enter User Name">
+      <div class="form-group loginFormGroup">
+        <label for="exampleInputEmail1">User Name</label>
+      <input id="FormLoginUsername" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+      placeholder="Enter User Name">
     </div>
     <div class="form-group loginFormGroup">
       <label for="exampleInputPassword1">Password</label>
       <input id="FormLoginPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
     </div>
-    <a id="ButtonLoginUser" class="btn btn-primary loginFormGroup" href="./html/startingPage.html" role="button"
+      <button id="ButtonLoginUser" type="submit" class="btn btn-primary" 
       style="
-        margin-top: 5px;
-        width: 100%;"
-      >Login</a>
-    <p class="loginFormGroup">Not a member? <a id="LinkShowSignupDialog" href="./html/signInPage.html">Signup</a></p>
-  </form>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-<script type="module" src="../src/ApplicationLoader.ts"></script>
+      margin-top: 5px;
+      width: 100%;"
+      >Login</button>
+      <p class="loginFormGroup">Not a member? <a id="LinkShowSignupDialog" href="#">Signup</a></p>
+    </form>
+    
+    
+    <!-- Signup Form -->
+    <!-- Quelle: https://getbootstrap.com/docs/4.3/components/forms/ -->
+    <form id="FormSignup" style="padding: 2%;
+      margin: 0 auto;
+      margin-top: 5%;
+      padding: 20px 15px 10px 15px;
+      border: 1px solid rgb(192, 192, 192);
+      border-radius: 10px;
+      max-width: 300px;
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      display: none;">
+      <h2 class="loginFormGroup">Signup</h1>
+        
+        <div class="form-group loginFormGroup" >
+          <label for="exampleInputEmail1">User Name</label>
+          <input id="FormSignupUsername" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        placeholder="User Name">
+      </div>
+      <div class="form-group loginFormGroup">
+        <label for="exampleInputPassword1">Password</label>
+        <input id="FormSignupPassword" type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+      </div>
+      <button id="ButtonSignupUser" type="submit" class="btn btn-primary" 
+      style="
+      margin-top: 5px;
+      width: 100%;"
+      >Signup</button>
+      <p>Already a member? <a id="LinkShowLoginDialog" href="#">Login</a></p>
+    </form>
+  </div>
+  
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
+  <script type="module" src="./js/ApplicationLoader.js"></script>
 </body>
 </html>

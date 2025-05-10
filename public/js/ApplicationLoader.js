@@ -1,10 +1,6 @@
 import { ApplicationManager } from './ApplicationManager.js';
-import { LandingPage } from './pages/landingPage';
-
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log("Application initialized");
     const applicationManager = new ApplicationManager();
     applicationManager.init();
-
 });
