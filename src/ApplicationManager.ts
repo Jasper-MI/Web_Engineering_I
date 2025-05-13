@@ -1,133 +1,119 @@
-import { StartingPage } from "./pages/startingPage.js";
+import { LandingPagePOM } from "./pages/landingPagePOM.js";
+import { StartingPagePOM } from "./pages/startingPagePOM.js";
 
 export class ApplicationManager {
-    private formLogin: HTMLElement | null = null;
-    private formSignup: HTMLElement | null = null;
-    private linkShowSignupDialog: HTMLElement | null = null;
-    private linkShowLoginDialog: HTMLElement | null = null;
-    private buttonSignupUser: HTMLElement | null = null;
-    private buttonLoginUser: HTMLElement | null = null;
 
-    private userMap: Map<number, User> = new Map<number, User>();
-    private userId: number = 0;
+    private static instance: ApplicationManager;
 
-    public init(): void {
+    private toastMessage: HTMLElement | null = null;
+    private toastMessageText: HTMLElement | null = null;
+
+    private userMap: Map<string, User> = new Map<string, User>();
+    //private userId: number = 0;
+
+    private constructor() {
+        console.log("ApplicationManager constructor aufgerufen");
+    }
+
+    public static getInstance(): ApplicationManager {
+        if (!ApplicationManager.instance) {
+            ApplicationManager.instance = new ApplicationManager();
+        }
+        return ApplicationManager.instance;
+    }
+
+
+    public async init(): Promise<void> {
         
         console.log("Application Manager initialized");
         
-        // DOM-Elemente abrufen
-        this.formLogin = document.getElementById('FormLogin');
-        this.formSignup = document.getElementById('FormSignup');
-        this.linkShowSignupDialog = document.getElementById('LinkShowSignupDialog');
-        this.linkShowLoginDialog = document.getElementById('LinkShowLoginDialog');
-        this.buttonSignupUser = document.getElementById('ButtonSignupUser');
-        this.buttonLoginUser = document.getElementById('ButtonLoginUser');
+        this.toastMessage = document.getElementById('toastMessage');
+        this.toastMessageText = document.getElementById('toastMessageText')
 
+        // standard admin user
+        const adminUser = new User("admin", "Manfred" , "Mustermann" , "123");
+        this.userMap.set(adminUser.userId, adminUser);
 
+        await this.loadLandingPage();
 
-
-        // Event Listener hinzufügen
-        this.linkShowSignupDialog?.addEventListener('click', (event) => {
-            event.preventDefault();
-            if (this.formLogin && this.formSignup) {
-                this.formLogin.style.display = 'none';
-                this.formSignup.style.display = 'block';
-            }
-        });
-        
-        // Event Listener hinzufügen
-        this.linkShowLoginDialog?.addEventListener('click', (event) => {
-            event.preventDefault();
-            if (this.formLogin && this.formSignup) {
-                this.formLogin.style.display = 'block';
-                this.formSignup.style.display = 'none';
-            }
-        });
-
-
-        // Button --> Signup new user
-        this.formSignup?.addEventListener('submit', (event) => {
-            event.preventDefault();
-            const userNameInput = (document.getElementById('FormSignupUsername') as HTMLInputElement).value;
-            const passwordInput = (document.getElementById('FormSignupPassword') as HTMLInputElement).value;
-            this.signupUser(userNameInput, passwordInput);
-
-            // Switch to login form after registration
-            if (this.formLogin && this.formSignup) {
-                this.formLogin.style.display = 'block';
-                this.formSignup.style.display = 'none';
-            }
-        });
-
-
-        // Button --> Login existing user
-        this.formLogin?.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const userNameInput = (document.getElementById('FormLoginUsername') as HTMLInputElement).value;
-            const passwordInput = (document.getElementById('FormLoginPassword') as HTMLInputElement).value;
-            
-            // Log the user in --> Check if the name and password are correct
-            var checkUser = this.login(userNameInput, passwordInput);
-
-            if(!checkUser){
-                console.log("Wrong username or password")
-                return null
-            }
-
-            // Then show the starting page
-            // First clear the current page
-            const appContent = document.getElementById('appContent');
-            if (appContent) {
-                const startingPage = new StartingPage(); // Create a new instance of StartingPage
-                appContent.innerHTML = ''; // Clear the current content
-                appContent.appendChild(await startingPage.render()); // Append the new content
-            }
-            
-
-        });
-
-    
     }
 
-    // Methode --> Signup new user
-    signupUser (userNameInput: string, passwordInput: string) {
+    
+    
+    // Loading Pages //
+    
+    async loadLandingPage(): Promise<void> {
+        console.log('LandingPage is loading');
+        
+        const landingPage = new LandingPagePOM();
+        await landingPage.init();
+    }
+    
+    loadStartPage(){
+        const startingPage = new StartingPagePOM();
+        startingPage.init();
+    }
+    
 
-        if (!userNameInput || !passwordInput) {
+    // Methode --> Signup new user
+    signupUser (useridInput: string, firstNameInput: string, lastNameInput: string,  passwordInput: string) {
+
+        if (!useridInput || !passwordInput) {
             console.log("Please fill in all fields");
             return null;
         }
 
+        
         for (const user of this.userMap.values()) {
-            if (user.userName === userNameInput) {
+            if (user.userId === useridInput) {
                 console.log("User already exists");
                 return null;
             }
         }
+        
 
         const newUser: User = new User (
-            this.userId++,
-            userNameInput,
+            useridInput,
+            firstNameInput,
+            lastNameInput,
             passwordInput
         );
-
         this.userMap.set(newUser.userId, newUser);
         console.log("New user added");
 
         console.log(this.userMap);
         return newUser;
     }
-
-
+    
     // Methode --> Login existing user 
-    login(userNameInput: string, passwordInput: string) {
+    login(useridInput: string, passwordInput: string) {
         for( const user of this.userMap.values()) {
-            if (user.userName === userNameInput && user.password === passwordInput) {
+            if (user.userId === useridInput && user.password === passwordInput) {
                 console.log("User logged in successfully");
                 return user;
             } else {
-                return null;
+                continue;
             }
         }
+        return null;
+    }
+
+    // Methode --> show toast message
+    showToast(message: string, color: string) {
+        if(this.toastMessage && this.toastMessageText){
+            this.toastMessageText.innerHTML = message;
+            this.toastMessage.style.backgroundColor = color;
+            this.toastMessage.style.display = 'block';
+            console.log(message + color);
+
+            setTimeout(() => {
+                this.toastMessage!.style.display = "none";
+            }, 3000);
+        }
+    }
+
+    public getUserNumber(): string {
+        return ApplicationManager.getInstance().userMap.size.toString();
     }
 
 }
@@ -136,13 +122,15 @@ export class ApplicationManager {
 // User-Class //
 
 class User {
-    userId: number;
-    userName: string;
+    userId: string;
+    firstName?: string;
+    lastName?: string;
     password: string;
 
-    constructor (userId: number, userName: string, password: string) {
+    constructor (userId: string, firstName: string, lastName: string, password: string) {
         this.userId = userId;
-        this.userName = userName;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.password = password;
     }
     
